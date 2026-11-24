@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]      # redeploy ao mudar o código
   schedule:
-    - cron: '17 */3 * * *' # backup best-effort (Actions atrasa/pula)
+    - cron: '33 */3 * * *'   # 24/11/2026: org nova scaleagenciaaa, horario proprio (dashes nao rodam juntas)
 
 permissions:
   contents: read
