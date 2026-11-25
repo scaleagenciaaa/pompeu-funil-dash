@@ -46,6 +46,7 @@ jobs:
         with:
           name: site
           path: site
+      - uses: actions/configure-pages@v5   # 25/11: sem isso o deploy-pages falhava na org nova (Fetching artifact metadata failed)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
