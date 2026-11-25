@@ -4,12 +4,10 @@ on:
   push:
     branches: [main]      # redeploy ao mudar o código
   schedule:
-    - cron: '26,56 * * * *'  # 25/11/2026: a cada 30 min (pedido do cliente); minutos livres das outras dashes da org
+    - cron: '26,56 * * * *'   # 25/11/2026: a cada 30 min (pedido do cliente), minuto proprio
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -23,32 +21,24 @@ jobs:
       - name: Build data.js (gviz -> aggregate)
         shell: powershell
         run: .\build.ps1 -Mode all
-      - name: Assemble public site (only aggregated/public files)
+      - name: Commit data.js se mudou (a prova de corrida)
         shell: powershell
         run: |
-          New-Item -ItemType Directory -Force site | Out-Null
-          Copy-Item index.html,app.js,styles.css,data.js site\
-          New-Item -ItemType File -Force site\.nojekyll | Out-Null
-      - uses: actions/upload-artifact@v4
-        with:
-          name: site
-          path: site
-          retention-days: 3
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: site
-          path: site
-      - uses: actions/configure-pages@v5   # 25/11: sem isso o deploy-pages falhava na org nova (Fetching artifact metadata failed)
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      - id: deploy
-        uses: actions/deploy-pages@v4
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if (-not (git status --porcelain data.js)) { Write-Host "sem mudancas"; exit 0 }
+          Copy-Item data.js "$env:RUNNER_TEMP\data.js"
+          $ok = $false
+          for ($i=0; $i -lt 5; $i++) {
+            git fetch origin main
+            git reset --hard origin/main
+            Copy-Item "$env:RUNNER_TEMP\data.js" data.js -Force
+            git add data.js
+            if (-not (git status --porcelain data.js)) { Write-Host "data.js igual ao origin, nada a publicar"; $ok=$true; break }
+            git commit -m ("auto: cloud " + (Get-Date -Format 'yyyy-MM-dd HH:mm'))
+            git push origin HEAD:main
+            if ($LASTEXITCODE -eq 0) { $ok=$true; break }
+            Write-Host ("push rejeitado, retry " + ($i+1) + "...")
+            Start-Sleep -Seconds 5
+          }
+          if (-not $ok) { throw "push falhou apos 5 tentativas" }
