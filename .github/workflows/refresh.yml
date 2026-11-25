@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]      # redeploy ao mudar o código
   schedule:
-    - cron: '26,56 * * * *'   # 25/11/2026: a cada 30 min (pedido do cliente), minuto proprio
+    - cron: '26 */3 * * *'   # reserva: o disparo principal e o cron-job.org (30 em 30 min)
 
 permissions:
   contents: write
