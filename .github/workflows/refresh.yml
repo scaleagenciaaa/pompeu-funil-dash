@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]      # redeploy ao mudar o código
   schedule:
-    - cron: '33 */3 * * *'   # 24/11/2026: org nova scaleagenciaaa, horario proprio (dashes nao rodam juntas)
+    - cron: '26,56 * * * *'  # 25/11/2026: a cada 30 min (pedido do cliente); minutos livres das outras dashes da org
 
 permissions:
   contents: read
