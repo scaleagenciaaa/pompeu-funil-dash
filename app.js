@@ -2080,7 +2080,10 @@
       plan: [[2000, 500], [3800, 700], [4200, 300], [5100, 500], [6900, 800], [4600, 1200], [3400, 1000]], planNote: 'meta R$ 35 mil · plano enviado 12/11 (dom 15/11 feriado)' },
     // S7: meta R$50k (Google 43k + Meta 7k c/ imposto), plano por dia enviado pelo cliente.
     { key: 's7', label: 'Webinar S7', from: '2026-11-18', to: '2026-11-24', de: 'qua 18/11', ate: 'ter 24/11 (19h30)', goal: 50000,
-      plan: [[5890, 842], [5750, 1036], [5450, 774], [5820, 956], [6850, 990], [5780, 1241], [7460, 1161]], planNote: 'meta R$ 50 mil · plano atualizado do cliente' }
+      plan: [[5890, 842], [5750, 1036], [5450, 774], [5820, 956], [6850, 990], [5780, 1241], [7460, 1161]], planNote: 'meta R$ 50 mil · plano atualizado do cliente' },
+    // S8: meta R$70k (Google 55k + Meta 15k c/ imposto), plano por dia do cliente (qua 25/11 já feito).
+    { key: 's8', label: 'Webinar S8', from: '2026-11-25', to: '2026-12-01', de: 'qua 25/11', ate: 'ter 01/12 (19h30)', goal: 70000,
+      plan: [[6657, 770], [7460, 2260], [7450, 2050], [7870, 2030], [9150, 2320], [7510, 2830], [8903, 2740]], planNote: 'meta R$ 70 mil · plano do cliente 26/11' }
   ], 's', 'Webinar');
   // ♾️ PERPÉTUO S1 · meta = R$5k (1ª versão 28/10 usava qua→ter; corrigido 31/10 p/ ter→seg, ver abaixo), MESMA distribuição do plano S3 original
   //   (Google [1000,1500,1700,2000,2800,3800,3200] / Meta [0,200,200,300,1000,1200,1100] de 20k) × 0,25 -> Google 4k + Meta 1k
